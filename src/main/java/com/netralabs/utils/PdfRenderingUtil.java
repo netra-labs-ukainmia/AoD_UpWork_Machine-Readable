@@ -3,7 +3,10 @@ package com.netralabs.utils;
 import com.itextpdf.io.font.constants.StandardFonts;
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
+import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfPage;
+import com.itextpdf.kernel.pdf.PdfReader;
+import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
 import com.itextpdf.kernel.pdf.extgstate.PdfExtGState;
 import com.itextpdf.kernel.pdf.tagutils.TagReference;
@@ -14,6 +17,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 public class PdfRenderingUtil {
 
@@ -54,6 +59,33 @@ public class PdfRenderingUtil {
         .showText(text)
         .endText();
   }
+
+
+  public static void renderTextValues(PdfCanvas canvas, PdfFont font, String text, PdfPage pdfPage, float[] position) {
+
+//    float[] position = PositionUtil.calculateBoundingBox(textObj, pdfPage);
+    float textX = position[0];
+    float textY = position[1];
+//    float textW = position[2];
+//    float textH = position[3];
+//    float fontSize = PositionUtil.calculateBestFitFontSize(textObj, pdfPage);
+//    float charSpace = PositionUtil.calculateCharSpacing(font, text, fontSize, textW);
+//    float textWidth = font.getWidth(text, fontSize);
+//    float textHeight = fontSize;
+
+
+//    logger.info("Rendering text '{}' at ({}, {}) with size {} (Invisible)", text, textX, textY, fontSize);
+
+    canvas.beginText()
+        .setFontAndSize(font, 12)
+        .setTextMatrix(textX, textY)
+//        .setCharacterSpacing(charSpace)
+//        .setLineWidth(textW)
+        .setExtGState(INVISIBLE_TEXT)
+        .showText(text)
+        .endText();
+  }
+
 
   /**
    * Renders invisible text inside a PDF.
